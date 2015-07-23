@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="RvScopiaMeetingAddIn">
+</Property><Property Name="Solution File" Value="C:\exchange_setup\RvScopiaMeetingAddIn\RvScopiaMeetingAddIn.sln">
+</Property><Property Name="User Options File" Value="C:\exchange_setup\RvScopiaMeetingAddIn\RvScopiaMeetingAddIn.suo">
+</Property><Property Name="Date" Value="Monday, August 19, 2013">
+</Property><Property Name="Time" Value="14:11 PM">
+</Property></Properties><Event ErrorLevel="0" Project="" Source="RvScopiaMeetingAddIn.sln" Description="File successfully backed up as C:\exchange_setup\RvScopiaMeetingAddIn\Backup\RvScopiaMeetingAddIn.sln">
+</Event><Event ErrorLevel="0" Project="" Source="RvScopiaMeetingAddIn.suo" Description="File successfully backed up as C:\exchange_setup\RvScopiaMeetingAddIn\Backup\RvScopiaMeetingAddIn.suo">
+</Event><Event ErrorLevel="0" Project="RvScopiaMeetingAddIn" Source="RvScopiaMeetingAddIn.csproj" Description="Project file successfully backed up as C:\exchange_setup\RvScopiaMeetingAddIn\Backup\RvScopiaMeetingAddIn.csproj">
+</Event><Event ErrorLevel="0" Project="RvScopiaMeetingAddIn" Source="MeetingRequest.cs" Description="File successfully backed up as C:\exchange_setup\RvScopiaMeetingAddIn\Backup\MeetingRequest.cs">
+</Event><Event ErrorLevel="0" Project="RvScopiaMeetingAddIn" Source="RvMailParser.cs" Description="File successfully backed up as C:\exchange_setup\RvScopiaMeetingAddIn\Backup\RvMailParser.cs">
+</Event><Event ErrorLevel="0" Project="RvScopiaMeetingAddIn" Source="RvLogger.cs" Description="File successfully backed up as C:\exchange_setup\RvScopiaMeetingAddIn\Backup\RvLogger.cs">
+</Event><Event ErrorLevel="0" Project="RvScopiaMeetingAddIn" Source="RvScopiaMeeting.cs" Description="File successfully backed up as C:\exchange_setup\RvScopiaMeetingAddIn\Backup\RvScopiaMeeting.cs">
+</Event><Event ErrorLevel="0" Project="RvScopiaMeetingAddIn" Source="Properties\AssemblyInfo.cs" Description="File successfully backed up as C:\exchange_setup\RvScopiaMeetingAddIn\Backup\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="RvScopiaMeetingAddIn" Source="install.ps1" Description="File successfully backed up as C:\exchange_setup\RvScopiaMeetingAddIn\Backup\install.ps1">
+</Event><Event ErrorLevel="0" Project="RvScopiaMeetingAddIn" Source="uninstall.ps1" Description="File successfully backed up as C:\exchange_setup\RvScopiaMeetingAddIn\Backup\uninstall.ps1">
+</Event><Event ErrorLevel="0" Project="RvScopiaMeetingAddIn" Source="RvScopiaMeetingAddIn.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="RvScopiaMeetingAddIn" Source="RvScopiaMeetingAddIn.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="RvScopiaMeetingAddIn.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="RvScopiaMeetingAddIn.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="RvScopiaMeetingAddIn" Source="RvScopiaMeetingAddIn.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

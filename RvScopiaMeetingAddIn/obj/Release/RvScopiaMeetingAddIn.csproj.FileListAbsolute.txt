@@ -1,0 +1,13 @@
+C:\exchange_setup\RvScopiaMeetingAddIn\bin\Release\RvScopiaMeetingAddIn.dll
+C:\exchange_setup\RvScopiaMeetingAddIn\bin\Release\RvScopiaMeetingAddIn.pdb
+C:\exchange_setup\RvScopiaMeetingAddIn\obj\Release\ResolveAssemblyReference.cache
+C:\exchange_setup\RvScopiaMeetingAddIn\obj\Release\RvScopiaMeetingAddIn.dll
+C:\exchange_setup\RvScopiaMeetingAddIn\obj\Release\RvScopiaMeetingAddIn.pdb
+C:\Projects\RvScopiaMeetingAddIn\bin\Release\RvScopiaMeetingAddIn.dll
+C:\Projects\RvScopiaMeetingAddIn\bin\Release\RvScopiaMeetingAddIn.pdb
+C:\Projects\RvScopiaMeetingAddIn\bin\Release\Interop.TaskScheduler.dll
+C:\Projects\RvScopiaMeetingAddIn\obj\Release\ResolveAssemblyReference.cache
+C:\Projects\RvScopiaMeetingAddIn\obj\Release\Interop.TaskScheduler.dll
+C:\Projects\RvScopiaMeetingAddIn\obj\Release\RvScopiaMeetingAddIn.csproj.ResolveComReference.cache
+C:\Projects\RvScopiaMeetingAddIn\obj\Release\RvScopiaMeetingAddIn.dll
+C:\Projects\RvScopiaMeetingAddIn\obj\Release\RvScopiaMeetingAddIn.pdb

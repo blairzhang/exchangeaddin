@@ -1,0 +1,10 @@
+C:\exchange_setup\mes2010\Samples\HubSynchronousLogging\bin\Debug\HubTransportLogging.dll
+C:\exchange_setup\mes2010\Samples\HubSynchronousLogging\bin\Debug\HubTransportLogging.pdb
+C:\exchange_setup\mes2010\Samples\HubSynchronousLogging\obj\Debug\ResolveAssemblyReference.cache
+C:\exchange_setup\mes2010\Samples\HubSynchronousLogging\obj\Debug\HubTransportLogging.dll
+C:\exchange_setup\mes2010\Samples\HubSynchronousLogging\obj\Debug\HubTransportLogging.pdb
+C:\exchange_setup\RvScopiaMeetingAddIn\bin\Debug\HubTransportLogging.dll
+C:\exchange_setup\RvScopiaMeetingAddIn\bin\Debug\HubTransportLogging.pdb
+C:\exchange_setup\RvScopiaMeetingAddIn\obj\Debug\ResolveAssemblyReference.cache
+C:\exchange_setup\RvScopiaMeetingAddIn\obj\Debug\HubTransportLogging.dll
+C:\exchange_setup\RvScopiaMeetingAddIn\obj\Debug\HubTransportLogging.pdb

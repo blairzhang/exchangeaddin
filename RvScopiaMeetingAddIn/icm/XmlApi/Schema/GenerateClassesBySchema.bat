@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\Bin\NETFX 4.0 Tools\xsd.exe" /c /l:CS /n:Radvision.Scopia.ExchangeMeetingAddIn.icm.XmlApi xmlapi-extensions-messages-internal.xsd /out:..\

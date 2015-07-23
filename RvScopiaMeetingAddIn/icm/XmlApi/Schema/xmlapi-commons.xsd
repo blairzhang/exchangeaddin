@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 rel. 2 sp1 (http://www.altova.com) by Guofeng Zhang (RV) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           elementFormDefault="qualified" attributeFormDefault="unqualified">
+	
+	<xs:element name="MCU_XML_API" type="mcuXmlApiType"/>
+	
+	<!--                                 -->
+        <!-- Wrapper Message For the XML API -->
+	<!--                                 -->
+	<xs:complexType name="mcuXmlApiType">
+		<xs:sequence>
+			<xs:element name="Version" type="xs:string" default="3.0"/>
+			<xs:element name="Account" type="xs:string" minOccurs="0"/>
+			<xs:element name="Password" type="xs:string" minOccurs="0"/>
+			<xs:choice>
+				<xs:element name="Request" type="requestType"/>
+				<xs:element name="Response" type="responseType"/>
+				<xs:element name="Notification" type="notificationType"/>
+				<xs:element name="MCU_External_Com_Control_Protocol" type="MCUExternalComControlProtocolType"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MCUExternalComControlProtocolType">
+		<xs:sequence>
+			<xs:element name="XMLParser_Error" type="xs:string" minOccurs="0"/>
+			<xs:element name="Bad_Or_Missed_Tag" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!--               -->
+        <!-- Message Types -->
+	<!--               -->
+	<xs:complexType name="requestType">
+		<xs:sequence>
+			          <xs:choice>
+				    		<xs:element name="Get_Dialing_Info_Request" type = "getDialingInfoRequestType" />
+				        <xs:element name="Get_Organization_Request" type="getOrganizationRequestType"/>
+				        <xs:element name="Get_User_Request" type="getUserRequestType"/>
+				        <xs:element name="Authenticate_User_Request" type="authenticateUserRequestType"/>
+				        <xs:element name="Get_Meeting_Service_Request" type="getMeetingServiceRequestType"/>
+				        <xs:element name="Get_Terminal_Request" type="getTerminalRequestType"/>
+				        <xs:element name="Create_Terminal_Request" type="createTerminalRequestType"/>
+				        <xs:element name="Modify_Terminal_Request" type="modifyTerminalRequestType"/>
+				        <xs:element name="Delete_Terminal_Request" type="deleteTerminalRequestType"/>
+				        <xs:element name="Get_Location_Request" type="getLocationRequestType"/>
+				        <xs:element name="Get_Conference_Request" type="getConferenceRequestType"/>
+				        <xs:element name="Schedule_Conference_Request" type="scheduleConferenceRequestType"/>
+				        <xs:element name="Modify_Conference_Request" type="modifyConferenceRequestType"/>
+				        <xs:element name="Cancel_Conference_Request" type="cancelConferenceRequestType"/>
+				        <xs:element name="Get_Virtual_Room_Request" type="getVirtualRoomRequestType"/>
+				        <xs:element name="Get_ServerInfo_Request" type="getServerInfoRequestType"/>
+				        <xs:element name="Get_User_Profile_Request" type="getUserProfileRequestType"/>
+				          </xs:choice>
+				          <!-- any specific request -->
+          <xs:any/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="responseType">
+		<xs:sequence>
+			<xs:choice>
+			        <xs:element name="Get_Dialing_Info_Response" type = "getDialingInfoResponseType" />
+			        <xs:element name="Get_Organization_Response" type="getOrganizationResponseType"/>
+			        <xs:element name="Get_User_Response" type="getUserResponseType"/>
+			        <xs:element name="Authenticate_User_Response" type="authenticateUserResponseType"/>
+			        <xs:element name="Get_Meeting_Service_Response" type="getMeetingServiceResponseType"/>
+			        <xs:element name="Get_Terminal_Response" type="getTerminalResponseType"/>
+			        <xs:element name="Create_Terminal_Response" type="createTerminalResponseType"/>
+			        <xs:element name="Modify_Terminal_Response" type="modifyTerminalResponseType"/>
+			        <xs:element name="Delete_Terminal_Response" type="deleteTerminalResponseType"/>
+			        <xs:element name="Get_Location_Response" type="getLocationResponseType"/>
+			        <xs:element name="Get_Conference_Response" type="getConferenceResponseType"/>
+			        <xs:element name="Schedule_Conference_Response" type="scheduleConferenceResponseType"/>
+			        <xs:element name="Modify_Conference_Response" type="modifyConferenceResponseType"/>
+			        <xs:element name="Cancel_Conference_Response" type="cancelConferenceResponseType"/>
+			        <xs:element name="Get_Virtual_Room_Response" type="getVirtualRoomResponseType"/>
+			        <xs:element name="Get_ServerInfo_Response" type="getServerInfoResponseType"/>
+			         <xs:element name="Get_User_Profile_Response" type="getUserProfileResponseType"/>
+			      </xs:choice>
+			
+			      <!-- any specific response -->
+			<xs:any />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="notificationType">
+		<xs:sequence>
+			<!-- any specific notification -->
+			<xs:any/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- -->
+	<xs:simpleType name="requestIDType">
+		<xs:restriction base="xs:string">
+		</xs:restriction>
+	</xs:simpleType>
+		
+	<xs:complexType name="MCURequestType">
+		<xs:sequence>
+			<xs:element name="RequestID" type="requestIDType"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MCUResponseType">
+		<xs:sequence>
+			<xs:element name="RequestID" type="requestIDType"/>
+			<xs:element name="ReturnValue" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MCUNotificationType" >
+		<xs:sequence>
+			<xs:element name="RequestID" type="requestIDType" minOccurs="0"/>
+			<xs:element name="ReturnValue" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType >	
+</xs:schema>
+

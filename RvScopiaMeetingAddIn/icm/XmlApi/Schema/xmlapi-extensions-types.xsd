@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 rel. 2 sp1 (http://www.altova.com) by Guofeng Zhang (RV) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+           <xs:simpleType name="int32">
+                <xs:restriction base="xs:integer">
+                    <!-- restrict integer values between -2147483648 and 2147483647 -->
+                    <xs:minInclusive value="-2147483648"/>
+                    <xs:maxInclusive value="2147483647"/>
+                </xs:restriction>
+           </xs:simpleType>
+           
+           <!-- Java Map -->
+           <xs:complexType name="dictionaryType">
+                <xs:sequence>
+                    <xs:element name="Entry" minOccurs="0" maxOccurs="unbounded">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="Key" type="xs:string" />
+                                <xs:element name="Value" type="xs:string" />
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+           </xs:complexType>
+
+           <xs:simpleType name="memberStatusType">
+                      <xs:restriction base="xs:string">
+                                 <xs:enumeration value="ACTIVE"/>
+                                 <xs:enumeration value="INACTIVE"/>
+                      </xs:restriction>
+           </xs:simpleType>
+		   
+           <!-- Terminal -->
+           <xs:complexType name="concurrentCallsLimitType">
+                      <xs:sequence>
+                                 <xs:element name="ConcurrentCalls" type="xs:int" default="0"/>
+                                 <xs:element name="Limited" type="xs:boolean" default="false"/>
+                      </xs:sequence>
+           </xs:complexType>  
+		   
+           <xs:complexType name="organizationType">
+                <xs:sequence >
+                    <xs:element name="MemberId" type="xs:string" />
+                    <xs:element name="Name" type="xs:string"/>
+                    <xs:element name="Status" type="memberStatusType"/>
+					<xs:element name="Alias" type="xs:string"/>
+					<xs:element name="AddressLine1" type="xs:string" minOccurs="0" />
+					<xs:element name="AddressLine2" type="xs:string" minOccurs="0" />
+					<xs:element name="City" type="xs:string" minOccurs="0" />
+					<xs:element name="StateProvince" type="xs:string" minOccurs="0" />
+					<xs:element name="Country" type="xs:string" minOccurs="0" />
+					<xs:element name="PostalCode" type="xs:string" minOccurs="0" />
+					<xs:element name="Telephone" type="xs:string" minOccurs="0" />
+					<xs:element name="Fax" type="xs:string" minOccurs="0" />
+					<xs:element name="BrandingAllowed" type="xs:boolean" default="false"/>
+					<xs:element name="MCUConcurrentCallsAllowed" type="concurrentCallsLimitType" minOccurs="0" />   
+					<xs:element name="GatewayConcurrentCallsAllowed" type="concurrentCallsLimitType" minOccurs="0" />
+					<xs:element name="VideoGatewayConcurrentCallsAllowed" type="concurrentCallsLimitType" minOccurs="0" />
+					<xs:element name="DesktopProMaxUsersAllowed" type="xs:int" minOccurs="0" />
+					<xs:element name="MobileMaxUsersAllowed" type="xs:int" minOccurs="0" />
+                    <xs:element name="BillingCode" type="xs:string"/>
+                    <xs:element name="ServiceId" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					
+					<!-- sysadmin -->
+					<xs:element name="UserId" type="xs:string" minOccurs="0" />
+					<xs:element name="LoginId" type="xs:string" minOccurs="0" />
+					<xs:element name="Password" type="xs:base64Binary" minOccurs="0" />
+					<xs:element name="EMail" type="xs:string" minOccurs="0" />
+					
+                </xs:sequence>
+           </xs:complexType>
+           
+           <xs:simpleType name="recordingStreamingPolicyType">
+                      <xs:restriction base="xs:string">
+                                 <xs:enumeration value="ON"/>
+                                 <xs:enumeration value="OFF"/>
+                                 <xs:enumeration value="DISABLED"/>
+                      </xs:restriction>
+           </xs:simpleType>
+
+    	  <!-- currently only the basic informatin is defined
+           -->
+           <xs:complexType name="userType">
+                 <xs:sequence>
+                    <xs:element name="MemberId"  type="xs:string" />
+                    <xs:element name="UserId"  type="xs:string" />
+                    <xs:element name="FirstName" type="xs:string" minOccurs="0" />
+                    <xs:element name="LastName" type="xs:string"/>
+                    <xs:element name="LoginID" type="xs:string" />
+                    <xs:element name="Password" type="xs:base64Binary" minOccurs="0"/>
+                    <xs:element name="TelephoneOffice" type="xs:string" minOccurs="0"/>
+                    <xs:element name="TelephoneMobile" type="xs:string" minOccurs="0" />
+                    <xs:element name="EMail" type="xs:string" minOccurs="0"/>
+                    <xs:element name="TimeZoneId"  type="xs:string" minOccurs="0" />
+                    <xs:element name="DefaultTermialId" type="xs:string" minOccurs="0" />
+                    <xs:element name="LocationId" type="xs:string" minOccurs="0" /> <!-- if not set, auto -->
+					
+                    <xs:element name="UserProfileId" type="xs:string" minOccurs="0" /> <!-- for inherited? -->
+                    <!--xs:element name="UserProfile" type="userProfileType" minOccurs="0" /-->
+
+                    <!--- ******************** -->					
+					<!-- Can Schedule a Meeting -->
+                    <xs:element name="Schedulable" type="xs:boolean"/>
+					<!-- Enable Advanced Scheduling (can invite endpoints and reserve resources) -->
+                    <xs:element name="Reservable" type="xs:boolean"/>													   
+
+					<xs:element name="AllowStreaming" type="recordingStreamingPolicyType"  minOccurs="0" />
+					<xs:element name="AllowRecording" type="recordingStreamingPolicyType"  minOccurs="0" />
+					
+					<!-- added -->
+                    <xs:element name="VirtualRoom" type="virtualRoomType" minOccurs="0"  maxOccurs="unbounded"/>
+                    <xs:element name="Proposition" type="propositionalVirtualRoomType" minOccurs="0"/>
+                    <xs:element name="MeetingService" type="meetingServiceType" minOccurs="0"  maxOccurs="unbounded"/>
+                    <!-- Can moderate all meetings without entering PIN -->
+                    <xs:element name="AllowModerateWithoutPin" type="xs:boolean"/>
+			  <xs:element name="NamedUser" type="xs:boolean"/>	
+		     <xs:element name="AllowUseOthersVirtualroom" type="xs:boolean"/>
+                </xs:sequence>
+           </xs:complexType>           
+           
+           <xs:simpleType name="accessAdminPortalType">
+                      <xs:restriction base="xs:string">
+                                 <xs:enumeration value="NO"/>
+                                 <xs:enumeration value="YES"/>
+                                 <xs:enumeration value="READONLY"/>
+                      </xs:restriction>
+           </xs:simpleType>
+
+           <xs:complexType name="userProfileType">
+                 <xs:sequence>
+                    <xs:element name="MemberId"  type="xs:string" minOccurs="0"/>
+                    <xs:element name="ProfileId"  type="xs:string"/>
+                    <xs:element name="Name"  type="xs:string" />
+                    <xs:element name="Description" type="xs:string" minOccurs="0"/>
+                    <xs:element name="MeetingService" type="meetingServiceType" minOccurs="0"  maxOccurs="unbounded"/>
+										
+					<!-- Can Schedule a Meeting -->
+                    <xs:element name="Schedulable" type="xs:boolean"/>
+					<!-- Enable Advanced Scheduling (can invite endpoints and reserve resources) -->
+                    <xs:element name="Reservable" type="xs:boolean"/>	
+                    <!-- can record meeting -->
+					<xs:element name="AllowRecording" type="recordingStreamingPolicyType"  minOccurs="0" />
+					<!-- Can use all SCOPIA Desktop Pro features (requires license) -->
+                    <xs:element name="AllowAllSDProFeatures" type="xs:boolean"/>
+					<!-- Can use all SCOPIA Mobile features (requires license) -->
+                    <xs:element name="AllowAllMobileFeatures" type="xs:boolean"/>
+					<!-- Can access SCOPIA Management administrator portal -->
+                    <xs:element name="AccessAdminPortal" type="accessAdminPortalType"/>
+					<!-- Can view all meetings in the user portal -->
+                    <xs:element name="ViewAllMeetingsByUserPortal" type="xs:boolean"/>
+					<!-- Can use others virtual rooms -->
+                    <xs:element name="AllowToUserOthersVirtualRooms" type="xs:boolean"/>
+                    					
+                    <xs:element name="SDMaxBandwidth" type="xs:int" minOccurs="0" /> 
+                    <!-- Can moderate all meetings without entering PIN -->
+                    <xs:element name="AllowModerateWithoutPin" type="xs:boolean"  minOccurs="0"/>
+                    <xs:element name="EnableSCOPIAUserLicenses" type="xs:boolean"  minOccurs="0"/>  
+                </xs:sequence>
+           </xs:complexType>           
+		   
+           <!-- Terminal -->
+           <xs:complexType name="telepresenceType">
+                      <xs:sequence>
+                                 <xs:element name="TPId" type="xs:string"/>
+                                 <xs:element name="TemplateId" type="xs:string"/>
+                                 <xs:element name="Triple" type="xs:boolean"/>
+                                 <xs:element name="CrossVideo" type="xs:boolean"/>
+                                 <xs:element name="Segment" minOccurs="0" maxOccurs="unbounded">
+								    <xs:complexType>
+									   <xs:sequence>
+									      <xs:element name="Number" type="xs:string"/>
+									   </xs:sequence>
+									</xs:complexType>
+							     </xs:element>
+                      </xs:sequence>
+           </xs:complexType>  
+                      
+           <xs:complexType name="gatewayType">
+                      <xs:sequence>
+                                 <xs:element name="CountryCode" type="xs:string"/>
+                                 <xs:element name="AreaCode" type="xs:string"/>
+                                 <xs:element name="TelephoneNumber" type="xs:string"/>
+                                 <xs:element name="NetworkAlias" type="xs:string"/>
+                      </xs:sequence>
+           </xs:complexType>  
+		   
+           <xs:simpleType name="videoProfileType">
+                      <xs:restriction base="xs:string">
+                                 <xs:enumeration value="AUTO"/>
+                                 <xs:enumeration value="SD"/>
+                                 <xs:enumeration value="FULL_HDCP_SYMMETRIC"/>
+                      </xs:restriction>
+           </xs:simpleType>		   
+		   
+           <xs:simpleType name="protocolType">
+                      <xs:restriction base="xs:string">
+                                 <xs:enumeration value="H323"/>
+                                 <xs:enumeration value="ISDN"/>
+                                 <xs:enumeration value="SIP"/>
+                                 <xs:enumeration value="DUAL"/>
+                                 <xs:enumeration value="MOBILE"/>
+                      </xs:restriction>
+           </xs:simpleType>		   		   
+                                
+           <xs:complexType name="gatekeeperType">
+                <xs:sequence>
+                    <xs:element name="GKId"  type="xs:string" />
+                    <xs:element name="Name"  type="xs:string"/>
+                    <xs:element name="Address" type="xs:string"/>
+                    <xs:element name="LocationId" type="xs:string"/>
+                    <xs:element name="Mode" type="xs:string"/>
+                </xs:sequence>
+           </xs:complexType>  
+
+		   <xs:complexType name="terminalType">
+                <xs:sequence>
+                    <xs:element name="MemberId"  type="xs:string" />
+                    <xs:element name="TerminalId"  type="xs:string"/>
+                    <xs:element name="TerminalName" type="xs:string"/>
+					<xs:element name="Description" type="xs:string" minOccurs="0"/>
+                    <xs:element name="Protocol" type="protocolType"/>
+                    <xs:element name="TerminalNumber" type="xs:string" minOccurs="0"/>
+                    <xs:element name="MaxBandwidth" type="xs:int" minOccurs="0"/> <!-- 0 for default, 16 for audio -->
+					
+					<!-- ISDN/PSTN/Mobile -->
+                    <xs:element name="MaxISDNBandwidth" type="xs:int" minOccurs="0"/>
+                    <xs:element name="AreaCode" type="xs:string" minOccurs="0"/>
+                    <xs:element name="CountryCode" type="xs:string" minOccurs="0"/>
+                    <xs:element name="TelephoneNumber" type="xs:string" minOccurs="0"/>
+					<xs:element name="ThreeG" type="xs:boolean" default="false"/>
+                    <xs:element name="RestrictedMode" type="xs:boolean" minOccurs="0"/>
+					
+					<xs:element name="VideoProfile" type="videoProfileType" />
+					<xs:element name="VoiceOnly" type="xs:boolean" default="false"/>
+                    <xs:element name="RegisterGKId" type="xs:string"/>
+                    <xs:element name="LocationId" type="xs:string"/>
+                    <xs:element name="Telepresence" type="telepresenceType" minOccurs="0" />
+                    <xs:element name="AddressBookEnabled" type="xs:boolean" minOccurs="0" />
+                </xs:sequence>
+           </xs:complexType>  
+		   
+           <xs:complexType name="netLocationType">
+                      <xs:sequence>
+                                 <xs:element name="LocationId" type="xs:string"/>
+                                 <xs:element name="Name" type="xs:string"/>
+								 <xs:element name="Description" type="xs:string"/>
+								 
+                      </xs:sequence>
+           </xs:complexType>  
+
+           <xs:complexType name="terminalLayoutType">
+                      <xs:sequence>
+                            <xs:element name="ViewId" type="xs:string"/>
+                            <xs:element name="LayoutType" type="xs:string"/>
+                            <xs:element name="positionId" type="xs:string"/>
+                      </xs:sequence>
+           </xs:complexType>  
+
+           <xs:complexType name="scheduledTerminalType">
+                <xs:complexContent>
+                        <xs:extension base="terminalType">
+                            <xs:sequence>
+                                <xs:element name="DialIn" type="xs:boolean" default="false"/>
+                                <xs:element name="TerminalEmail" type="xs:string"/>
+                            </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+           </xs:complexType>  
+		   
+		   <!-- an user or terminal can be invited into a conference.
+		        terminal: 
+				    if a terminal defined in iVIEW is invited, terminalId is specified correctly.
+					
+		            if no userId or no email is specified, it is a terminal, and if no TerminalId is specified, the number etc must be specified and it is
+				    an external termial (not defined in iVIEW).
+					
+				if userId or email and terminal is defined, it is a user with specifed terminal used to attend the conference
+				
+		   -->
+           <xs:complexType name="attendeeType">
+                 <xs:complexContent>
+                        <xs:extension base="scheduledTerminalType">
+                           <xs:sequence>
+                                 <xs:element name="UserId" type="xs:string" minOccurs="0" />
+                                 <xs:element name="Email" type="xs:string" minOccurs="0" />
+                                 <xs:element name="FirstName" type="xs:string" minOccurs="0" />
+                                 <xs:element name="LastName" type="xs:string" minOccurs="0" />
+                                 <xs:element name="Host" type="xs:boolean" minOccurs="0" />
+                                 <xs:element name="Organizer" type="xs:boolean" minOccurs="0" />
+                            </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+           </xs:complexType>
+		   
+           <xs:simpleType name="terminationConditionType">
+                      <xs:restriction base="xs:string">
+                                 <xs:enumeration value="NORMAL"/>
+                                 <xs:enumeration value="AFTER_ALL_PARTIES_LEFT"/>
+                                 <xs:enumeration value="AFTER_HOST_LEFT"/>
+                      </xs:restriction>
+           </xs:simpleType>
+
+           <xs:complexType name="advancedPropertiesType">
+                      <xs:sequence>
+                                 <xs:element name="EnableMCUCascading" type="xs:boolean" minOccurs="0"/>
+                                 <xs:element name="AllowDynamicGrow" type="xs:boolean" minOccurs="0"/>
+                                 <xs:element name="DurationAfterLeft" type="xs:duration" minOccurs="0"/>
+                                 <xs:element name="TerminationCondition" type="terminationConditionType" minOccurs="0"/>
+                      </xs:sequence>
+           </xs:complexType>  
+           		   
+           <xs:complexType name="SDAccessType">
+                      <xs:sequence>
+                                 <xs:element name="URL" type="xs:string"/>
+                      </xs:sequence>
+           </xs:complexType>  
+		   
+	       <xs:complexType name="reservedPortsType">
+				   <xs:sequence>
+				      <xs:element name="Regular" type="xs:int" minOccurs="0"/>
+				      <xs:element name="SD" type="xs:int" minOccurs="0"/>
+				      <xs:element name="HD" type="xs:int" minOccurs="0"/>
+				      <xs:element name="FullHD" type="xs:int" minOccurs="0"/>
+				   </xs:sequence>
+			</xs:complexType>
+			
+           <xs:complexType name="abstractConferenceType">
+                      <xs:sequence>
+                                 <xs:element name="MemberId" type="xs:string" />
+                                 <xs:element name="UserId" type="xs:string" /> <!-- who's onwer of the conference -->
+                                 <!--xs:element name="OrganizerId" type="xs:string"  minOccurs="0" /--> <!-- who's the organizer of the conference -->
+								 <xs:element name="Number" type="xs:string" minOccurs="0"/>
+                                 <xs:element name="AccessPIN" type="xs:base64Binary" minOccurs="0"/>
+                                 <xs:element name="ModeratorPIN" type="xs:base64Binary" minOccurs="0"/>
+								 <xs:element name="ServiceTemplateId" type="xs:string" minOccurs="0" />
+                                 <xs:element name="ServicePrefix" type="xs:string" minOccurs="0"/>
+                                 <xs:element name="Priority" type="priorityType" minOccurs="0"/>
+                                 <!--xs:element name="RecordingQuality" type="xs:int" minOccurs="0"/-->
+                                 <!--xs:element name="RecordingDuration" type="xs:int" minOccurs="0"/-->
+                                 
+								 <xs:element name="AllowStreaming" type="recordingStreamingPolicyType" minOccurs="0"/>
+                                 <xs:element name="StreamingStatus" type="streamingStatusType" minOccurs="0"/>
+							
+                                 <xs:element name="Attendee" type="attendeeType" minOccurs="0" maxOccurs="unbounded" />
+								 <xs:element name="ReservedPorts" type="reservedPortsType" minOccurs="0"/>
+                                 <xs:element name="BlockDialIn" type="xs:boolean" default="false"/>
+                                 <xs:element name="AutoExtend" type="xs:boolean" default="false"/>
+                                 <xs:element name="WaitingRoom" type="xs:boolean" default="false"/>
+                                 <xs:element name="AdvancedProperties" type="advancedPropertiesType"/>
+								 <xs:element name="OneTimePINRequired" type="xs:boolean"/>
+                      </xs:sequence>
+           </xs:complexType>  
+
+           <xs:simpleType name="conflictCategoryType">
+                      <xs:restriction base="xs:string">
+                                 <xs:enumeration value="USER"/>
+                                 <xs:enumeration value="TERMINAL"/>
+                      </xs:restriction>
+           </xs:simpleType>		   		   
+           
+           <xs:complexType name="conflictInfoType">
+                      <xs:sequence>
+  				          <xs:element name="Category" type="conflictCategoryType"/>
+  				          <xs:element name="Id" type="xs:string"/> <!-- User ID or Terminal ID -->
+						  <xs:element name="Name" type="xs:string"/> <!-- User's full name or terminal name -->
+						  <xs:element name="Subject" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>										  
+                      </xs:sequence>
+           </xs:complexType>  
+		   
+           <xs:complexType name="scheduleReportType">
+                      <xs:sequence>
+						<xs:element name="Success" type="xs:boolean"/> <!-- true success, otherwise false -->
+						<xs:element name="ErrorCode" type="xs:string"/>
+						<xs:element name="ConflictInfo" type="conflictInfoType" minOccurs="0" maxOccurs="unbounded" />
+						<xs:element name="Detail" type="xs:string" minOccurs="0"  />
+					    <xs:element name="ConferenceId" type="xs:string" minOccurs="0" />
+					    <xs:element name="Number" type="xs:string" minOccurs="0" />
+                      </xs:sequence>
+           </xs:complexType>  
+
+           <xs:simpleType name="clientType">
+                      <xs:restriction base="xs:string">
+                                 <xs:enumeration value="NORMAL"/>
+                                 <xs:enumeration value="OUTLOOK"/>
+                                 <xs:enumeration value="LOTUS"/>
+				 <xs:enumeration value="OUTLOOK_CLIENTLESS"/>
+                      </xs:restriction>
+           </xs:simpleType>		   		   
+
+           <xs:complexType name="conferenceType">
+                <xs:complexContent>
+                    <xs:extension base="abstractConferenceType">
+                        <xs:sequence >
+                            <!--xs:element name="UserId" type="xs:string" minOccurs="0"/>  if presented, tell who is scheduling the meeting -->
+                            <xs:element name="ConferenceId" type="xs:string" minOccurs="0" />
+                            <xs:element name="Status" type="conferenceStatusType" minOccurs="0"/>
+                            <xs:element name="Subject" type="xs:string"  minOccurs="0" />
+                            <xs:element name="Description" type="xs:string" minOccurs="0"/>
+                            <xs:element name="StartTime" type="xs:dateTime" minOccurs="0"/>
+                            <xs:element name="Duration" type="xs:duration" minOccurs="0"/>
+							<xs:element name="LocationId" type="xs:string" minOccurs="0" /> <!-- if not set, auto -->
+							<xs:element name="TestOnly" type="xs:boolean" minOccurs="0" />
+                            <xs:element name="SendingNotification" type="xs:boolean"  minOccurs="0"/> <!-- if it is true, notification mail will be sent out -->
+							<xs:element name="client" type="clientType" minOccurs="0" />
+
+                            <xs:element name="RecordingMeetingWhenStart" type="xs:boolean" default="false"/>
+
+                            <xs:choice>
+								<xs:element name="Daily" type="recurrenceDailyType" />
+								<xs:element name="Weekly" type="recurrenceWeeklyType" />
+								<xs:element name="Monthly" type="recurrenceMonthlyType" />
+                            </xs:choice>
+					        <xs:element name="RecurrenceEnd" minOccurs="0">
+							    <xs:complexType>
+									<xs:choice>
+									    <xs:element name="EndOfOccurrences" type="xs:int"/>
+									    <xs:element name="By" type="xs:date"/>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+			    <xs:element name="TimeZoneId" type="xs:string" minOccurs="0" />	
+			    <xs:element name="UserEmail" type="xs:string"  minOccurs="0" />	
+			    <xs:element name="OutlookResources" type="OutlookResource" minOccurs="0"/>	
+			    <xs:element name="OccurrenceOldStartTime" type="xs:dateTime" minOccurs="0"/>
+			    <xs:element name="OutlookRecipents" type="OutlookRecipents" minOccurs="0"/>	
+			    <xs:element name="ReccurencePatternChanged" type="xs:boolean" default="false"/>
+			    <xs:element name="RecipentsChanged" type="xs:boolean" default="false"/>
+			    <xs:element name="AddRecipents" type="xs:boolean" default="false"/>	
+			    <xs:element name="RemovePersonalTerminals" type="xs:boolean" default="false"/>				   
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+           </xs:complexType>
+
+	   <xs:simpleType name="OutlookRecipents">
+	     <xs:list itemType="xs:string"/>
+	   </xs:simpleType>
+
+           <xs:simpleType name="OutlookResource">
+	     <xs:list itemType="xs:string"/>
+	   </xs:simpleType>
+
+           <xs:complexType name="propositionalVirtualRoomType">
+                <xs:sequence>
+                         <xs:element name="Number" type="xs:string"/>
+                </xs:sequence>
+           </xs:complexType>  
+           
+           <xs:complexType name="virtualRoomType">
+                      <xs:complexContent>
+                                 <xs:extension base="abstractConferenceType">
+                                            <xs:sequence >
+                                               <xs:element name="VirtualRoomId" type="xs:string"  minOccurs="0" />
+                                               <!--xs:element name="UserId" type="xs:string" /--> <!-- who's virtual room -->
+                                               <xs:element name="Name" type="xs:string"  minOccurs="0" />
+                                               <xs:element name="Description" type="xs:string" minOccurs="0"/>
+                                               <xs:element name="Public" type="xs:boolean" default="false"/>  <!-- if it is publicly available -->
+                                               <xs:element name="Default" type="xs:boolean" default="false"/> <!-- if it is the default virtual room -->
+                                               <xs:element name="MaxParticipants" type="xs:int" minOccurs="0"/> <!-- -1 for default, not present for no limit -->
+                                               <xs:element name="AllowRecording" type="recordingStreamingPolicyType" minOccurs="0"/>
+                                            </xs:sequence>
+                                 </xs:extension>
+                      </xs:complexContent>
+           </xs:complexType>
+           
+           <xs:simpleType name="priorityType">
+                      <xs:restriction base="xs:string">
+                                 <xs:enumeration value="UNSPECIFIED"/>
+                                 <xs:enumeration value="DELAY"/>
+                                 <xs:enumeration value="LOCAL"/>
+                      </xs:restriction>
+           </xs:simpleType>
+           
+           <xs:simpleType name="streamingStatusType">
+                      <xs:restriction base="xs:string">
+                                 <xs:enumeration value="UNDEFINED"/>
+                                 <xs:enumeration value="OFF"/>
+                                 <xs:enumeration value="ON"/>
+                                 <xs:enumeration value="TEMPORARILY_OFF"/>
+                      </xs:restriction>
+           </xs:simpleType>
+
+           <xs:simpleType name="conferenceStatusType">
+                      <xs:restriction base="xs:string">
+                                 <xs:enumeration value="UNKNOWN"/>
+                                 <xs:enumeration value="NOT_START"/>
+                                 <xs:enumeration value="IN_SESSION"/>
+                                 <xs:enumeration value="FINISHED"/>
+                                 <xs:enumeration value="START_FAILED"/>
+                                 <xs:enumeration value="CANCELLED"/>
+                                 <xs:enumeration value="SCHEDULE_FAILED"/>
+                                 <xs:enumeration value="BACKUP"/>
+                                 <xs:enumeration value="STOP_FAILED"/>
+                                 <xs:enumeration value="ABNORMAL_STOPPED"/>
+								 
+								 <!-- additional settings for search -->
+                                 <xs:enumeration value="ACTIVE"/>
+                      </xs:restriction>
+           </xs:simpleType>
+           
+           <xs:complexType name="conferenceAvailabilityType">
+                      <xs:sequence>
+                                 <xs:element name="StartTime" type="xs:dateTime"/>
+                                 <xs:element name="EndTime" type="xs:dateTime"/>
+                                 <xs:element name="Available" type="xs:boolean"/>
+                      </xs:sequence>
+           </xs:complexType>  
+		   
+           <xs:complexType name="meetingMediaPropertyType">
+                      <xs:sequence>
+					             <xs:element name="Active"    type="xs:boolean" minOccurs="0"/>
+					             <xs:element name="AudioOnly" type="xs:boolean" minOccurs="0"/>
+					             <xs:element name="P2P"       type="xs:boolean" minOccurs="0"/>
+					             <xs:element name="Switching" type="xs:boolean" minOccurs="0"/>
+					             <xs:element name="SD"        type="xs:boolean" minOccurs="0"/>
+					             <xs:element name="HD"        type="xs:boolean" minOccurs="0"/>
+					             <xs:element name="FullHD"    type="xs:boolean" minOccurs="0"/>
+					             <xs:element name="BuiltIn"    type="xs:boolean" minOccurs="0"/>
+                                 <xs:element name="Bandwidth" type="xs:int"/>
+                      </xs:sequence>
+           </xs:complexType>  
+
+           <xs:complexType name="meetingServiceType">
+                      <xs:sequence>
+                                 <xs:element name="ServiceId" type="xs:string"/>
+					             <xs:element name="Name" type="xs:string"/>
+					             <xs:element name="Prefix" type="xs:string"/>
+					             <xs:element name="Description" type="xs:string" minOccurs="0"/>								 
+					             <xs:element name="MediaProperty" type="meetingMediaPropertyType" minOccurs="0"/>
+					             <xs:element name="Default" type="xs:boolean" minOccurs="0"/>								 
+                      </xs:sequence>
+           </xs:complexType>  
+
+           <xs:simpleType name="dayOfWeekType">
+                      <xs:restriction base="xs:string">
+                                 <xs:enumeration value="SUN"/>
+                                 <xs:enumeration value="MON"/>
+                                 <xs:enumeration value="TUE"/>
+                                 <xs:enumeration value="WED"/>
+                                 <xs:enumeration value="THU"/>
+                                 <xs:enumeration value="FRI"/>
+                                 <xs:enumeration value="SAT"/>
+                      </xs:restriction>
+           </xs:simpleType>
+		   
+           <xs:simpleType name="dayRecurrenceType">
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="SUN"/>
+                    <xs:enumeration value="MON"/>
+                    <xs:enumeration value="TUE"/>
+                    <xs:enumeration value="WED"/>
+                    <xs:enumeration value="THU"/>
+                    <xs:enumeration value="FRI"/>
+                    <xs:enumeration value="SAT"/>
+                    <xs:enumeration value="ANYDAY"/>
+                    <xs:enumeration value="WEEKDAY"/>
+                    <xs:enumeration value="WEEKENDDAY"/>
+                  </xs:restriction>
+           </xs:simpleType>
+		   
+           <xs:simpleType name="WeekOfMonthType">
+                      <xs:restriction base="xs:string">
+                                 <xs:enumeration value="FIRST"/>
+                                 <xs:enumeration value="SECOND"/>
+                                 <xs:enumeration value="THIRD"/>
+                                 <xs:enumeration value="FOURTH"/>
+                                 <xs:enumeration value="LAST"/>
+                      </xs:restriction>
+           </xs:simpleType>
+
+           <xs:simpleType name="DayOfMonthType">
+                      <xs:restriction base="xs:int">
+                                 <!-- restrict integer values between -2147483648 and 2147483647 -->
+                                 <xs:minInclusive value="1"/>
+                                 <xs:maxInclusive value="31"/>
+                      </xs:restriction>
+           </xs:simpleType>
+
+           <xs:simpleType name="MonthType">
+                      <xs:restriction base="xs:integer">
+                                 <!-- restrict integer values between -2147483648 and 2147483647 -->
+                                 <xs:minInclusive value="1"/>
+                                 <xs:maxInclusive value="12"/>
+                      </xs:restriction>
+           </xs:simpleType>
+		   
+           <xs:complexType name="recurrenceDailyType">
+                      <xs:choice>
+                                 <xs:element name="NumberOfEveryDay" type="xs:int"/>
+					             <xs:element name="EveryWeekDay" type="xs:boolean"/>
+                      </xs:choice>
+           </xs:complexType>  
+
+           <xs:complexType name="recurrenceWeeklyType">
+                      <xs:sequence>
+                                 <xs:element name="NumberOfEveryWeek" type="xs:int"/>
+					             <xs:element name="DayOfWeek" type="dayOfWeekType" minOccurs="1" maxOccurs="7"/>
+                      </xs:sequence>
+           </xs:complexType>  
+		   
+           <xs:complexType name="recurrenceMonthlyType">
+                  <xs:sequence>		   
+					  <xs:element name="NumberOfEveryMonth" type="xs:int" /> <!-- 1 or above -->
+                      <xs:choice>
+						         <xs:element name="DayOfMonth" type="DayOfMonthType"/>
+                                 <xs:element name="DayOfNumberOfEveryMonth" >
+								    <xs:complexType>
+									   <xs:sequence>
+									      <xs:element name="WeekOfMonth" type="WeekOfMonthType"/>
+									      <xs:element name="DayOfWeek" type="dayRecurrenceType"/>
+									   </xs:sequence>
+									</xs:complexType>
+								 </xs:element>
+                      </xs:choice>
+                  </xs:sequence>		   
+           </xs:complexType>  
+		   
+</xs:schema>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

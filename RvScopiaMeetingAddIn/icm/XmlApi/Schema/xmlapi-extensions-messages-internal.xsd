@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 rel. 2 sp1 (http://www.altova.com) by Guofeng Zhang (RV) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+       <xs:include schemaLocation="xmlapi-extensions-messages.xsd"/>
+       <xs:include schemaLocation="xmlapi-extensions-types-internal.xsd"/>
+           
+		<xs:element name="Get_Dialing_Info_Request" type = "getDialingInfoRequestType" />
+		<xs:element name="Get_Dialing_Info_Response" type = "getDialingInfoResponseType" />
+		<xs:element name="Get_Capture_Info_Request" type = "getCaptureInfoRequestType" />
+		<xs:element name="Get_Capture_Info_Response" type = "getCaptureInfoResponseType" />
+		<xs:element name="Get_MCU_Request" type = "getMCURequestType" />
+		<xs:element name="Get_MCU_Response" type = "getMCUResponseType" />
+
+        <xs:simpleType name="operationPolicyType">
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="CREATE"/>
+                <xs:enumeration value="MODIFY"/>
+                <xs:enumeration value="CANCEL"/>
+            </xs:restriction>
+        </xs:simpleType>
+		
+        <xs:complexType name="getDialingInfoRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+								    <xs:element name="MemberId" type="xs:string" minOccurs="0"/>
+									<xs:choice>
+										<xs:element name="UserId" type="xs:string" />
+                                        <xs:element name="LoginId" type="xs:string"/>
+                                        <xs:element name="DialableNumber" type="xs:string"/>
+									</xs:choice>
+                                    <xs:element name="AccessPIN" type="xs:base64Binary" minOccurs="0"/>
+                                    <xs:element name="ServiceTemplateId" type="xs:string" minOccurs="0" />
+                                    <xs:element name="operation" type="operationPolicyType" minOccurs="0" />
+				    <xs:element name="servicePrefix" type="xs:string" minOccurs="0" />
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+
+        <xs:complexType name="getDialingInfoResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                    <xs:element name="DialingInfo" type="dialingInfoType"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="getMCURequestType">
+        	<xs:complexContent>
+        		<xs:extension base="MCURequestType">
+        			<xs:sequence>
+        				<xs:element name="MCUId" type="xs:string"
+        					minOccurs="0" maxOccurs="1">
+        				</xs:element>
+        				<xs:element name="Name" type="xs:string"
+        					minOccurs="0" maxOccurs="1">
+        				</xs:element>        			</xs:sequence>
+        		</xs:extension>
+        	</xs:complexContent>
+        </xs:complexType>
+
+        <xs:complexType name="getMCUResponseType">
+        	<xs:complexContent>
+        		<xs:extension base="MCUResponseType">
+        			<xs:sequence>
+        				<xs:element name="MCUInfo"
+        					type="MCUInfoType" minOccurs="0" maxOccurs="unbounded">
+        				</xs:element>
+        			</xs:sequence>
+        		</xs:extension>
+        	</xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="getCaptureInfoRequestType">
+        	<xs:complexContent>
+        		<xs:extension base="MCURequestType">
+        			<xs:sequence>
+        				<xs:element name="Interval" type="xs:int" minOccurs="1" maxOccurs="1">
+        				</xs:element>        				<xs:element name="EndTime" type="xs:long" minOccurs="0">
+        				</xs:element>
+        				<xs:element name="ConfId" type="xs:string" minOccurs="0">
+        				</xs:element>
+        				<xs:element name="CaptureDevice"
+        					type="CaptureDeviceType" maxOccurs="unbounded" minOccurs="0">
+        				</xs:element>
+        			</xs:sequence>
+        		</xs:extension>
+        	</xs:complexContent>
+        </xs:complexType>
+
+        <xs:complexType name="getCaptureInfoResponseType">
+        	<xs:complexContent>
+        		<xs:extension base="MCUResponseType">
+        			<xs:sequence>        				<xs:element name="CaptureInfo"
+        					type="CaptureInfoType" minOccurs="0" maxOccurs="unbounded">
+        				</xs:element>
+        			</xs:sequence>
+        		</xs:extension>
+        	</xs:complexContent>
+        </xs:complexType>
+
+        <xs:complexType name="CaptureDeviceType">
+        	<xs:sequence>
+        		<xs:element name="IPAddress" type="xs:string"></xs:element>
+        		<xs:element name="DeviceName" type="DeviceNameType">
+        		</xs:element>
+        		<xs:element name="UserName" type="xs:string"
+        			minOccurs="0">
+        		</xs:element>
+        		<xs:element name="Password" type="xs:string" minOccurs="0"></xs:element>
+        		<xs:element name="TimeZone" type="xs:string"
+        			minOccurs="0">
+        		</xs:element>
+        	</xs:sequence>
+        </xs:complexType>
+
+
+        <xs:simpleType name="DeviceNameType">
+        	<xs:restriction base="xs:string">
+        		<xs:enumeration value="IVIEW"></xs:enumeration>
+        		<xs:enumeration value="MCU"></xs:enumeration>
+        		<xs:enumeration value="GK"></xs:enumeration>
+        		<xs:enumeration value="GW"></xs:enumeration>
+        		<xs:enumeration value="SD"></xs:enumeration>
+        		<xs:enumeration value="PF"></xs:enumeration>
+        	</xs:restriction>
+        </xs:simpleType>
+
+        <xs:complexType name="CaptureInfoType">
+        	<xs:sequence>
+            <xs:element name="DeviceName" type="DeviceNameType"></xs:element>
+            <xs:element name="FileURL" type="xs:string"></xs:element>
+        		<xs:element name="FileSize" type="xs:double"></xs:element>
+        	</xs:sequence>
+        </xs:complexType>
+
+        <xs:complexType name="MCUInfoType">
+        	<xs:sequence>
+        		<xs:element name="MCUId" type="xs:string"></xs:element>
+        		<xs:element name="Name" type="xs:string"></xs:element>
+        		<xs:element name="Address" type="xs:string"></xs:element>
+        		<xs:element name="LocationId" type="xs:string"></xs:element>
+        		<xs:element name="Mode" type="xs:string"></xs:element>
+        		<xs:element name="RegisterGKId" type="xs:string"></xs:element>
+        		<xs:element name="InMaintenance" type="xs:boolean"></xs:element>
+        	</xs:sequence>
+        </xs:complexType>
+</xs:schema>

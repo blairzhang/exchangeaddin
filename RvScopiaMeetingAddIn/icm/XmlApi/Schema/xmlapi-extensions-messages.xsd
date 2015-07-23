@@ -1,0 +1,746 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 rel. 2 sp1 (http://www.altova.com) by Guofeng Zhang (RV) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+           elementFormDefault="qualified" attributeFormDefault="unqualified">
+	
+        <xs:include schemaLocation="xmlapi-commons.xsd"/>
+        <xs:include schemaLocation="xmlapi-extensions-types.xsd"/>
+
+        <!-- User -->
+        <xs:element name="Get_User_Request" type="getUserRequestType"/>
+        <xs:element name="Get_User_Response" type="getUserResponseType"/>
+        <xs:element name="Create_User_Request" type="createUserRequestType"/>
+        <xs:element name="Create_User_Response" type="createUserResponseType"/>
+
+        <xs:element name="Modify_User_Request" type="modifyUserRequestType"/>
+        <xs:element name="Modify_User_Response" type="modifyUserResponseType"/>
+
+        <xs:element name="Delete_User_Request" type="deleteUserRequestType"/>
+        <xs:element name="Delete_User_Response" type="deleteUserResponseType"/>
+
+        <xs:element name="Get_User_Profile_Request" type="getUserProfileRequestType"/>
+        <xs:element name="Get_User_Profile_Response" type="getUserProfileResponseType"/>
+        
+        <xs:element name="Authenticate_User_Request" type="authenticateUserRequestType"/>
+        <xs:element name="Authenticate_User_Response" type="authenticateUserResponseType"/>
+                
+        <xs:element name="Get_Meeting_Service_Request" type="getMeetingServiceRequestType"/>
+        <xs:element name="Get_Meeting_Service_Response" type="getMeetingServiceResponseType"/>
+		
+		<!-- Member -->
+        <xs:element name="Get_Organization_Request" type="getOrganizationRequestType"/>
+        <xs:element name="Get_Organization_Response" type="getOrganizationResponseType"/>
+
+        <xs:element name="Create_Organization_Request" type="createOrganizationRequestType"/>
+        <xs:element name="Create_Organization_Response" type="createOrganizationResponseType"/>
+
+        <xs:element name="Modify_Organization_Request" type="modifyOrganizationRequestType"/>
+        <xs:element name="Modify_Organization_Response" type="modifyOrganizationResponseType"/>
+
+        <xs:element name="Delete_Organization_Request" type="deleteOrganizationRequestType"/>
+        <xs:element name="Delete_Organization_Response" type="deleteOrganizationResponseType"/>
+
+        <!-- Resource Service -->
+        <xs:element name="Get_Gatekeeper_Request" type="getGatekeeperRequestType"/>
+        <xs:element name="Get_Gatekeeper_Response" type="getGatekeeperResponseType"/>
+		
+        <xs:element name="Get_Terminal_Request" type="getTerminalRequestType"/>
+        <xs:element name="Get_Terminal_Response" type="getTerminalResponseType"/>
+
+        <xs:element name="Create_Terminal_Request" type="createTerminalRequestType"/>
+        <xs:element name="Create_Terminal_Response" type="createTerminalResponseType"/>
+
+        <xs:element name="Modify_Terminal_Request" type="modifyTerminalRequestType"/>
+        <xs:element name="Modify_Terminal_Response" type="modifyTerminalResponseType"/>
+
+        <xs:element name="Delete_Terminal_Request" type="deleteTerminalRequestType"/>
+        <xs:element name="Delete_Terminal_Response" type="deleteTerminalResponseType"/>
+
+        <xs:element name="Get_Location_Request" type="getLocationRequestType"/>
+        <xs:element name="Get_Location_Response" type="getLocationResponseType"/>
+
+        <!-- Control Service
+          TODO:
+             extendLiveConference
+             terminateConference
+             inviteNewTerminal
+             dropAttendedTerminal
+          The above have the similiar MCU XML API.
+        -->
+
+        <!-- Schedule Service -->
+        
+        <!-- 
+                viewConference by conference Id, conference number - Get_Conference_Request
+                searchConference                                   - Get_Conference_Request
+        -->
+        <xs:element name="Get_Conference_Request" type="getConferenceRequestType"/>
+        <xs:element name="Get_Conference_Response" type="getConferenceResponseType"/>
+
+        <xs:element name="Schedule_Conference_Request" type="scheduleConferenceRequestType"/>
+        <xs:element name="Schedule_Conference_Response" type="scheduleConferenceResponseType"/>
+
+        <xs:element name="Modify_Conference_Request" type="modifyConferenceRequestType"/>
+        <xs:element name="Modify_Conference_Response" type="modifyConferenceResponseType"/>
+
+        <xs:element name="Cancel_Conference_Request" type="cancelConferenceRequestType"/>
+        <xs:element name="Cancel_Conference_Response" type="cancelConferenceResponseType"/>
+		
+		<xs:element name="Delete_History_Conference_Request" type="deleteHistoryConferenceRequestType" />
+		<xs:element name="Delete_History_Conference_Response" type="deleteHistoryConferenceResponseType" />
+
+		<xs:element name="Check_Conference_Availability_Request" type="checkConferenceAvailabilityRequestType" />
+		<xs:element name="Check_Conference_Availability_Response" type="checkConferenceAvailabilityResponseType" />
+
+        <xs:element name="Get_Virtual_Room_Request" type="getVirtualRoomRequestType"/>
+        <xs:element name="Get_Virtual_Room_Response" type="getVirtualRoomResponseType"/>
+        
+        <xs:element name="Create_Virtual_Room_Request" type="createVirtualRoomRequestType"/>
+        <xs:element name="Create_Virtual_Room_Response" type="createVirtualRoomResponseType"/>
+
+        <xs:element name="Modify_Virtual_Room_Request" type="modifyVirtualRoomRequestType"/>
+        <xs:element name="Modify_Virtual_Room_Response" type="modifyVirtualRoomResponseType"/>
+        
+        <xs:element name="Delete_Virtual_Room_Request" type="deleteVirtualRoomRequestType"/>
+        <xs:element name="Delete_Virtual_Room_Response" type="deleteVirtualRoomResponseType"/>
+        
+        <xs:element name="Get_ServerInfo_Request" type="getServerInfoRequestType"/>
+        <xs:element name="Get_ServerInfo_Response" type="getServerInfoResponseType"/>
+        
+        <!-- User
+            criteria: name:rad firstName: gg lastName: hh
+        -->
+        <xs:simpleType name="userSortByType">
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="FIRST_NAME"/>
+                <xs:enumeration value="LAST_NAME"/>
+            </xs:restriction>
+           </xs:simpleType>		   
+		
+        <xs:complexType name="getUserRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:choice>
+                                           <xs:element name="MemberId" type="xs:string"/>
+                                           <xs:element name="MemberName" type="xs:string"/>
+                                        </xs:choice>
+                                        <xs:choice>
+                                                <xs:element name="LoginId" type="xs:string"/>
+                                                <xs:element name="UserId" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                                                <xs:element name="Criteria" type="dictionaryType"/>
+                                        </xs:choice>
+										<xs:element name="StartIndex" type="xs:integer" minOccurs="0" />
+										<xs:element name="Length" type="xs:integer" minOccurs="0"/>
+										<xs:element name="SortBy" type="userSortByType" minOccurs="0"/>
+										<xs:element name="Ascending" type="xs:boolean" minOccurs="0"/>
+										
+										<!-- added -->
+                                        <xs:element name="Detailed" type="xs:boolean" minOccurs="0"/>	
+					<xs:element name="UserEmail" type="xs:string" minOccurs="0"/>					
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="getUserResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="User" type="userType" minOccurs="0"  maxOccurs="unbounded"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        <xs:complexType name="createUserRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="User" type="userType"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="createUserResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="UserId" type="xs:string" />
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+		
+        <xs:complexType name="modifyUserRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="User" type="userType"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="modifyUserResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="UserId" type="xs:string" />
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+
+        <xs:complexType name="deleteUserRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="MemberId" type="xs:string" minOccurs="0"/>
+                                        <xs:element name="UserId" type="xs:string" minOccurs="0"  maxOccurs="unbounded"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="deleteUserResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+
+        <xs:complexType name="getUserProfileRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="MemberId" type="xs:string" minOccurs="0"/>
+                                        <xs:element name="ProfileId" type="xs:string" minOccurs="0"  maxOccurs="unbounded"/>									
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="getUserProfileResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="UserProfile" type="userProfileType" minOccurs="0"  maxOccurs="unbounded"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+		
+        <xs:complexType name="authenticateUserRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="MemberId" type="xs:string"/>
+                                        <xs:element name="LoginId" type="xs:string"/>
+                                        <xs:element name="Password" type="xs:base64Binary"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="authenticateUserResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+		
+		<!-- Member -->
+        <xs:complexType name="getOrganizationRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                            <xs:choice>
+                                <xs:element name="MemberId" type="xs:string"/>
+                                <xs:element name="Name" type="xs:string"/>
+                            </xs:choice>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="getOrganizationResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="Organization" type="organizationType" minOccurs="0"  maxOccurs="unbounded"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>		
+
+		<!-- Member -->
+        <xs:complexType name="createOrganizationRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                            <xs:sequence>
+                              <xs:element name="Organization" type="organizationType" />
+                            </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="createOrganizationResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="MemberId" type="xs:string" />
+                                        <xs:element name="UserId" type="xs:string" />
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>		
+
+        <xs:complexType name="modifyOrganizationRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                            <xs:sequence>
+                              <xs:element name="Organization" type="organizationType" />
+                            </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="modifyOrganizationResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="MemberId" type="xs:string" />
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>		
+
+        <xs:complexType name="deleteOrganizationRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                            <xs:sequence>
+                                <xs:element name="MemberId" type="xs:string" minOccurs="0"  maxOccurs="unbounded"/>
+                            </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="deleteOrganizationResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>		
+
+		<!-- meeting service -->
+        <xs:complexType name="getMeetingServiceRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="MemberId" type="xs:string"/>
+                                        <xs:choice>
+                                                <xs:element name="LoginId" type="xs:string"/>
+                                                <xs:element name="UserId" type="xs:string"/>
+                                        </xs:choice>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="getMeetingServiceResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="MeetingService" type="meetingServiceType" minOccurs="0"  maxOccurs="unbounded"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+
+        <!-- Resources -->
+        <xs:complexType name="getGatekeeperRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:choice>
+                                                <xs:element name="GKId" type="xs:string" minOccurs="0"  maxOccurs="unbounded"/>
+                                                <xs:element name="Name" type="xs:string"/>
+                                                <xs:element name="Address" type="xs:string"/>
+                                        </xs:choice>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="getGatekeeperResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="Gatekeeper" type="gatekeeperType" minOccurs="0"  maxOccurs="unbounded"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+		
+        <xs:simpleType name="terminalSortByType">
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="NAME"/>
+                <xs:enumeration value="E164"/>
+            </xs:restriction>
+           </xs:simpleType>		   
+		
+        <xs:complexType name="getTerminalRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="MemberId" type="xs:string"/>
+                                        <xs:choice>
+                                                <xs:element name="TerminalId" type="xs:string" minOccurs="0"  maxOccurs="unbounded"/>
+                                                <xs:element name="Name" type="xs:string"/>
+                                                <xs:element name="Number" type="xs:string"/>
+                                                <xs:element name="NameOrNumber" type="xs:string"/>
+                                        </xs:choice>
+										<xs:element name="StartIndex" type="xs:integer" minOccurs="0" />
+										<xs:element name="Length" type="xs:integer" minOccurs="0"/>
+										<xs:element name="SortBy" type="terminalSortByType" minOccurs="0"/>
+										<xs:element name="Ascending" type="xs:boolean" minOccurs="0"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="getTerminalResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="Terminal" type="terminalType" minOccurs="0"  maxOccurs="unbounded"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+
+        <xs:complexType name="deleteTerminalRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="MemberId" type="xs:string"/>
+                                        <xs:element name="TerminalId" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="deleteTerminalResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="createTerminalRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="Terminal" type="terminalType" />
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="createTerminalResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="TerminalId" type="xs:string" />
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+
+        <xs:complexType name="modifyTerminalRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="Terminal" type="terminalType"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="modifyTerminalResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>        
+        
+        <xs:complexType name="getLocationRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                    <xs:element name="LocationId" type="xs:string" minOccurs="0"  maxOccurs="unbounded"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="getLocationResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="Location" type="netLocationType" minOccurs="0"  maxOccurs="unbounded"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+		
+        <!-- Schedule service -->
+        
+        <xs:complexType name="getVirtualRoomRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="MemberId" type="xs:string"/>
+                                        <xs:choice>
+                                                <xs:element name="DialableNumber" type="xs:string"/>
+                                                <xs:element name="VirtualRoomId" type="xs:string"/>
+                                                <xs:element name="VirtualRoomName" type="xs:string"/>
+                                                <xs:element name="LoginId" type="xs:string"/>
+                                                <xs:element name="UserId" type="xs:string"/>
+                                                <xs:element name="PartOfUserName" type="xs:string"/>
+                                        </xs:choice>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="getVirtualRoomResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="VirtualRoom" type="virtualRoomType" minOccurs="0" maxOccurs="unbounded"/>
+                                        <xs:element name="Proposition" type="propositionalVirtualRoomType" minOccurs="0"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>        
+        
+        <xs:complexType name="createVirtualRoomRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="VirtualRoom" type="virtualRoomType"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="createVirtualRoomResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="VirtualRoomeId" type="xs:string" minOccurs="0"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>        
+
+        <xs:complexType name="modifyVirtualRoomRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="VirtualRoom" type="virtualRoomType"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="modifyVirtualRoomResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>        
+		
+        <xs:complexType name="deleteVirtualRoomRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="VirtualRoomId" type="xs:string"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="deleteVirtualRoomResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>        
+
+        <!--
+                Criteria - Subject: ss ConferenceStatus:ss E164: 1212 StartTime: ss EndTime:ee
+        -->
+        <xs:complexType name="getConferenceRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="MemberId" type="xs:string"  minOccurs="0"/>
+										
+										<!-- more search condition for normal conferences -->
+                                        <xs:choice>
+                                                <xs:element name="ConferenceId" type="xs:string"/>
+                                                <xs:element name="Number" type="xs:string"/>
+                                                <xs:element name="Criteria" type="dictionaryType"/>
+                                        </xs:choice>										
+										<xs:element name="StartTime" type="xs:dateTime"  minOccurs="0" /> <!-- for a recurrence instance when conferenceId reference to a recurrence-->
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="getConferenceResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                        <xs:element name="Conference" type="conferenceType" minOccurs="0" maxOccurs="unbounded"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>        
+				
+        <xs:complexType name="scheduleConferenceRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="Conference" type="conferenceType"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="scheduleConferenceResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                    <xs:element name="Report" type="scheduleReportType"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>        
+        
+        <xs:complexType name="modifyConferenceRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="Conference" type="conferenceType"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="modifyConferenceResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                    <xs:element name="Report" type="scheduleReportType"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>        
+        
+        <xs:complexType name="cancelConferenceRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="ConferenceId" type="xs:string"/>
+					<xs:element name="StartTime" type="xs:dateTime"  minOccurs="0" />
+					<xs:element name="Reccuring" type="xs:boolean" default="false"/>
+					<xs:element name="Client" type="clientType" minOccurs="0" />
+					<xs:element name="DeleteClientLessConfIDMapping" type="xs:boolean" default="false"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="cancelConferenceResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                    <xs:element name="Report" type="scheduleReportType" minOccurs="0"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>        
+				
+        <xs:complexType name="deleteHistoryConferenceRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="ConferenceId" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="deleteHistoryConferenceResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>     
+
+        <xs:complexType name="checkConferenceAvailabilityRequestType">
+                <xs:complexContent>
+                        <xs:extension base="MCURequestType">
+                                <xs:sequence>
+                                        <xs:element name="Conference" type="conferenceType"/>
+                                        <xs:element name="StartTime" type="xs:dateTime"/>
+                                        <xs:element name="EndTime" type="xs:dateTime"/>
+                                        <xs:element name="CycleInterval" type="xs:duration"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType>
+        
+        <xs:complexType name="checkConferenceAvailabilityResponseType">
+                <xs:complexContent>
+                        <xs:extension base="MCUResponseType">
+                                <xs:sequence>
+                                    <xs:element name="Availability" type="conferenceAvailabilityType" minOccurs="0" maxOccurs="unbounded"/>
+                                </xs:sequence>
+                        </xs:extension>
+                </xs:complexContent>
+        </xs:complexType> 
+
+        <xs:complexType name="getServerInfoRequestType">
+		<xs:complexContent>
+			<xs:extension base="MCURequestType">
+			<xs:sequence>
+			</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="getServerInfoResponseType">
+		<xs:complexContent>
+			<xs:extension base="MCUResponseType">
+				<xs:sequence>
+				       <xs:element name="RestrictedLicense" type="xs:boolean"/>
+				       <xs:element name="UCLicensed" type="xs:boolean"/>
+				       <xs:element name="MaxRecurringDays" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>   
+		
+</xs:schema>
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
